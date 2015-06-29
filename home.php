@@ -11,6 +11,9 @@
 
  <script src="js/bootstrap.min.js"></script>
 <style type="text/css">
+	body{
+		color: #777;
+	}
 	.panel {
 		background-color: #e7e7e7;
 		height: 100%;
@@ -24,11 +27,24 @@
 		margin-top: 2%;
 	}
 	.table-wrapper{
-    	border: 1px solid black;
+    	border: 1px solid #999;
     	width: 90%;
     	height: 70%;
     	overflow: auto;
     	margin-left: 4%;
+	}
+	.smallBox {
+		position: relative;
+		border:1px solid #777;
+		width:45%;
+		height: 20%;
+		margin-left: 25%;
+		margin-top: 2%;
+	}
+	.bigBox {
+		position: relative;
+		border:1px solid #777;
+		width: 90%;
 	}
 </style>
 <script type="text/javascript">
@@ -69,10 +85,37 @@
     <div class="tab-pane panel" id="vacate-pg">
     		vacate pg form goes here
     </div>
+
     <!-- Monthly rent form goes here, use innerDiv class-->
     <div class="tab-pane panel" id="monthly-rent"> 	
-    		monthly rent form goes here
+    		<div class="innerDiv">
+    			<fieldset class="smallBox">
+    				<legend style="color:#555;font-size:80%;">Get Rent Details </legend>
+    				<label style="margin-left:10%;">Enter Mobile Number : </label>	
+    				<input type="text" id="mobileNo">
+    				<button class="btn btn-md btn-info" id="getDetails" style="margin-left:2%;">Get Details</button>
+    			</fieldset>
+    			<br><br>
+    			<form>
+    				<fieldset class="bigBox">
+    					<legend style="color:#555;font-size:80%">Details</legend>
+    					<label>Name : </label>
+    					<input type="text" id="name"><br>
+    					<label>Rent Per Month : </label>
+    					<input type="text" id="mRent"><br>
+    					<label>How Much Paid : </label>
+    					<input type="text" id="mPaid"><br>
+    					<label>Any Balance of Previous Month : </label>
+    					<input type="text" id="mBalance"><br>
+    					<label>Total Amount to be Paid : </label>
+    					<input type="text" id="mTotal">
+    				</fieldset>	
+    			</form>
+    			
+
+    		</div>
     </div>
+
     <!-- Overall Month details form goes here, use innerDiv class-->
     <div class="tab-pane panel" id="month-details">
     	<div class="innerDiv">
