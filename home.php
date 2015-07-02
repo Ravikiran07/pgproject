@@ -4,12 +4,14 @@
 
 </title>
 <head>
-<meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <script src="js/jquery-1.11.3.min.js"></script>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<script src="lib/jquery-1.11.3.min.js"></script>
 
- <script src="js/bootstrap.min.js"></script>
+	<script src="lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/generalFunctions.js"></script>
+	<script type="text/javascript" src="js/fetchDetails.js"></script>
 <style type="text/css">
 	body{
 		color: #777;
@@ -54,18 +56,202 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		fillYear();
+
+        //Get full details function
+		$("#fullDetails").click(function(){
+			var mobile = $("#detailsMobileNo").val();
+            clearDetails();
+            if(mobile == ""){
+                alert("Enter Mobile Number");
+                return false;
+            }
+
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                 xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var ret;
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    ret =  xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET","js/fetchDetails.php?mobile="+mobile, true);
+            xmlhttp.send();
+
+            setTimeout(function(){
+                ret = JSON.parse(ret);
+                
+                if(ret.length > 0){
+                    $("#dName").val(ret[0].name);
+                    $("#dRoomNo").val(ret[0].room_no);
+                    $("#dAddress").val(ret[0].permanent_address);
+                    $("#dResidenceMobile").val(ret[0].residence_mobile);
+                    $("#dAdvancePaid").val(ret[0].advance_paid);
+                    $("#dRent").val(ret[0].monthly_rent);    
+                }else{
+                    alert("Details not found");
+                }
+                
+            },500)
+        
+		});//Get full details function completes here
+
+        $("#getPerDetails").click(function(){
+            var mobile = $("#perMobileNo").val();
+            clearRoomDetails();
+
+            if(mobile == ""){
+                alert("Enter Mobile Number");
+                return false;
+            }
+
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                 xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var ret;
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    ret =  xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET","js/fetchDetails.php?mobile="+mobile, true);
+            xmlhttp.send();
+
+            setTimeout(function(){
+                ret = JSON.parse(ret);
+                
+                if(ret.length > 0){
+                    $("#pName").val(ret[0].name);
+                    $("#pRoomNo").val(ret[0].room_no);
+                    $("#pMobileNumber").val(ret[0].mobile_number);
+                    $("#pRent").val(ret[0].monthly_rent);    
+                }else{
+                    alert("Details not found");
+                }
+                
+            },500)
+
+        });
+        
+        $("#updateRoomRent").click(function(){
+            var name = $("#pName").val();
+            var roomNo = $("#pRoomNo").val();
+            var mobile = $("#pMobileNumber").val();
+            var rent = $("#pRent").val();
+            var previous = $("#perMobileNo").val();
+
+            validateRoomRent();
+
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                 xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var ret;
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    //ret =  xmlhttp.responseText;
+                    alert("Updated Information");
+                }
+            }
+            xmlhttp.open("GET","js/updateRoomRent.php?mobile="+mobile+"&name="+name+"&roomNo="+roomNo+"&rent="+rent+"&previous="+previous, true);
+            xmlhttp.send();            
+            alert("Updated Information");
+
+        });
+        
+        //Vacate PG function
+        $("#getPersonDetails").click(function(){
+            var mobile = $("#personMobileNo").val();
+        });
+
+
+        $("#getDetails").click(function(){
+            var mobile = $("#mobileNo").val();
+
+            if(mobile == ""){
+                alert("Enter Mobile Number");
+                return false;
+            }
+
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                 xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var ret;
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    ret =  xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET","js/rentDetails.php?mobile="+mobile, true);
+            xmlhttp.send();
+
+            setTimeout(function(){
+                ret = JSON.parse(ret);
+                
+                if(ret.length > 0){
+                    $("#name").val(ret[0].name);
+                    $("#mRent").val(ret[0].monthly_rent);
+                    $("#mBalance").val(ret[0].balance);
+                    $("#mTotal").val(parseInt(ret[0].monthly_rent)+parseInt(ret[0].balance));    
+                }else{
+                    alert("Details not found");
+                }
+                
+            },500)
+
+        });
+        
+        $("#mPaid").keyup(function(){
+            var paid = $("#mPaid").val();
+            var total = $("#mTotal").val();
+
+            $("#mPresentBalance").val(total-paid);
+        });
+
+        $("#payRent").click(function(){
+            var mobile = $("#mobileNo").val();
+            var rent = $("#mRent").val();
+            var paid = $("#mPaid").val();
+            var balance = $("#mPresentBalance").val();
+            var month = $("#rentMonth").val();
+            var year = $("#rentYear").val();
+
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                 xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var ret;
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    ret =  xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET","js/saveRentDetails.php?mobile="+mobile+"&rent="+rent+"&paid="+paid+"&balance="+balance+"&month="+month+"&year="+year, true);
+            xmlhttp.send();
+
+        });
+
 	});
 
-	function fillYear(){
-		var d = new Date();
-		var n = d.getFullYear();
-		
-		for(var k = n; k > 2000; k--){
-			$("#year").append($("<option>").attr("value",k).text(k));
-			$("#rentYear").append($("<option>").attr("value",k).text(k));
-		}
-		
-	}
+
 </script>
  
 </head>
@@ -86,43 +272,118 @@
 <div id="my-tab-content" class="tab-content" style="margin-left:10%;">
 	<!-- New Joinee form goes here, use innerDiv class inside it for creating form-->
     <div class="tab-pane active panel" id="new-joinee">
-	    	New joinee form here
+		<div class="innerDiv">
+			<form class="form-horizontal" action="js/addJoinee.php" method="post" onsubmit="return validation();"> 
+				<fieldset class="bigBox">
+    				<legend style="color:#555;font-size:80%">Details</legend>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Name : </label>
+    					<input type="text" name="jName" id="jName" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Father's Name : </label>
+    					<input type="text" name="jFatherName" id="jFatherName" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Room Number : </label>
+    					<input type="text" name="jRoomNumber" id="jRoomNumber" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Date of Birth : </label>
+    					<input type="text" name="jDOB"  id="jDOB" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Permanent Address : </label>
+    					<textarea name="jAddress"  id="jAddress" rows="3" class="form-control"></textarea>
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Mobile Number : </label>
+    					<input type="text" name="jmobileNumber" id="jmobileNumber" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Residence Mobile Number : </label>
+    					<input type="text" name="jResidenceMobile" id="jResidenceMobile" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Date Of Admission : </label>
+    					<input type="text" name="jAdmissionDate" id="jAdmissionDate" class="form-control">
+    				</div>
+                    <div class="form-group">
+                            <label style="margin-left:20%">Rent Paid for the Month : </label>
+                            <select id="newJoineeRentMonth" name="newJoineeRentMonth">
+                                <option value="january">January</option>
+                                <option value="february">February</option>
+                                <option value="march">March</option>
+                                <option value="april">April</option>
+                                <option value="may">May</option>
+                                <option value="june">June</option>
+                                <option value="july">July</option>
+                                <option value="august">August</option>
+                                <option value="september">September</option>
+                                <option value="november">November</option>
+                                <option value="december">December</option>
+                            </select>
+                            <label style="margin-left:5%;">Select Year : </label>
+                            <select id="newJoineeRentYear" name="newJoineeRentYear"></select>
+                        </div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Mail Id : </label>
+    					<input type="text" name="jMailId" id="jMailID" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Office Address: </label>
+    					<textarea name="jOfficeAddress" id="jOfficeAddress" rows="3" class="form-control"></textarea>
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Monthly Rent : </label>
+    					<input type="text" name="jMonthRent" id="jMonthRent" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Advance Amount Paid : </label>
+    					<input type="text" name="jAdvanceAmount" id="jAdvanceAmount" class="form-control">
+    				</div>
+    				<input type="submit" class="btn btn-md btn-primary pull-right" style="margin-right:5%;" value="Save Details">
+    				<br><br><br>
+    			</fieldset>
+			</form>
+		</div>    	
     </div>
+
     <!-- Vacate PG form goes here, use innerDiv class -->
     <div class="tab-pane panel" id="vacate-pg">
-    		<div class="innerDiv">
-    			<fieldset class="smallBox">
-    				<legend style="color:#555;font-size:80%;">Get Rent Details </legend>
-    				<label style="margin-left:10%;">Enter Mobile Number : </label>	
-    				<input type="text" id="personMobileNo">
-    				<button class="btn btn-md btn-info" id="getPersonDetails" style="margin-left:2%;">Get Details</button>
+    	<div class="innerDiv">
+    		<fieldset class="smallBox">
+    			<legend style="color:#555;font-size:80%;">Get Rent Details </legend>
+    			<label style="margin-left:10%;">Enter Mobile Number : </label>	
+    			<input type="text" id="personMobileNo">
+    			<button class="btn btn-md btn-info" id="getPersonDetails" style="margin-left:2%;">Get Details</button>
+    		</fieldset>
+    		<br><br><br>
+    		<form class="form-horizontal">
+    			<fieldset class="bigBox">
+    				<legend style="color:#555;font-size:80%">Details</legend>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Name : </label>
+    					<input type="text" id="personName" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Room Number :</label>
+    					<input type="text" id="personRoomNo" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Advance Paid : </label>
+    					<input type="text" id="advancePaidForPG" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Balance Remaining : </label>
+    					<input type="text" id="pgBalance" class="form-control">
+    				</div>
+    				<button class="btn btn-md btn-primary pull-right" id="vacatePG" style="margin-right:5%">Vacate PG</button>
+    				<br><br>
     			</fieldset>
-    			<br><br><br>
-    			<form class="form-horizontal">
-    				<fieldset class="bigBox">
-    					<legend style="color:#555;font-size:80%">Details</legend>
-    					<div class="form-group">
-    						<label class="col-sm-4 control-label">Name : </label>
-    						<input type="text" id="personName" class="form-control">
-    					</div>
-    					<div class="form-group">
-    						<label class="col-sm-4 control-label">Room Number :</label>
-    						<input type="text" id="personRoomNo" class="form-control">
-    					</div>
-    					<div class="form-group">
-    						<label class="col-sm-4 control-label">Advance Paid : </label>
-    						<input type="text" id="advancePaidForPG" class="form-control">
-    					</div>
-    					<div class="form-group">
-    						<label class="col-sm-4 control-label">Balance Remaining : </label>
-    						<input type="text" id="pgBalance" class="form-control">
-    					</div>
-    					<button class="btn btn-md btn-primary pull-right" id="vacatePG" style="margin-right:5%">Vacate PG</button>
-    					<br><br>
-    				</fieldset>
-    			</form>
+    		</form>
 
-    		</div>
+    	</div>
     </div>
 
     <!-- Get Full Details of person staying in PG, use innerDiv class -->
@@ -196,7 +457,7 @@
     					<label class="col-sm-4 control-label">Change Rent Amount : </label>
     					<input type="text" id="pRent" class="form-control">	
     				</div>
-    				<button class="btn btn-md btn-primary pull-right" style="margin-right:5%">Change Room/Update Rent</button>
+    				<button class="btn btn-md btn-primary pull-right" style="margin-right:5%" id="updateRoomRent">Change Room/Update Rent</button>
     				<br><br><br>
     			</fieldset>
     		</form>
@@ -219,27 +480,27 @@
     					<legend style="color:#555;font-size:80%">Details</legend>
     					<div class="form-group">
     						<label class="col-sm-4 control-label">Name : </label>
-    						<input type="text" id="name" class="form-control">
+    						<input type="text" id="name" class="form-control" disabled>
     					</div>
     					<div class="form-group">
     						<label class="col-sm-4 control-label">Rent Per Month : </label>
-    						<input type="text" id="mRent" class="form-control">	
+    						<input type="text" id="mRent" class="form-control" disabled>	
     					</div>
     					<div class="form-group">
     						<label class="col-sm-4 control-label">How Much Paid : </label>
-    						<input type="text" id="mPaid" class="form-control">
+    						<input type="text" id="mPaid" class="form-control" placeholder="Enter the amount">
     					</div>
     					<div class="form-group">
     						<label class="col-sm-4 control-label">Any Balance of Previous Month : </label>
-    						<input type="text" id="mBalance" class="form-control">
+    						<input type="text" id="mBalance" class="form-control" disabled>
     					</div>
     					<div class="form-group">
     						<label class="col-sm-4 control-label">Total Amount to be Paid : </label>
-    						<input type="text" id="mTotal" class="form-control">	
+    						<input type="text" id="mTotal" class="form-control" disabled>	
     					</div>
     					<div class="form-group">
     						<label class="col-sm-4 control-label">Balance Remaining : </label>
-    						<input type="text" id="mBalance" class="form-control">
+    						<input type="text" id="mPresentBalance" class="form-control">
     					</div>
     					<div class="form-group">
     						<label style="margin-left:20%">Select Month : </label>
@@ -316,9 +577,6 @@
     	</div>
     </div>
 </div>
-
-
-
 
 
 </body>
