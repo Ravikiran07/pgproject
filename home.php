@@ -45,6 +45,10 @@
 		position: relative;
 		border:1px solid #777;
 		width: 90%;
+		margin-left: 5%;
+	}
+	.form-control {
+		width: 50%;
 	}
 </style>
 <script type="text/javascript">
@@ -58,6 +62,7 @@
 		
 		for(var k = n; k > 2000; k--){
 			$("#year").append($("<option>").attr("value",k).text(k));
+			$("#rentYear").append($("<option>").attr("value",k).text(k));
 		}
 		
 	}
@@ -70,6 +75,7 @@
 <div class="container">
 	<ul class="nav nav-pills nav-justified" style="margin-top:10%;" data-tabs="tabs">
   		<li class="active"><a href="#new-joinee" data-toggle="tab">New Joinee</a></li>
+  		<li ><a href="#change-room" data-toggle="tab">Change Room/Update Rent</a></li>
   		<li ><a href="#vacate-pg" data-toggle="tab">Vacate PG</a></li>
   		<li ><a href="#monthly-rent" data-toggle="tab">Monthly Rent Pay</a></li>
   		<li ><a href="#month-details" data-toggle="tab">Overall Month Details</a></li>
@@ -83,7 +89,76 @@
     </div>
     <!-- Vacate PG form goes here, use innerDiv class -->
     <div class="tab-pane panel" id="vacate-pg">
-    		vacate pg form goes here
+    		<div class="innerDiv">
+    			<fieldset class="smallBox">
+    				<legend style="color:#555;font-size:80%;">Get Rent Details </legend>
+    				<label style="margin-left:10%;">Enter Mobile Number : </label>	
+    				<input type="text" id="personMobileNo">
+    				<button class="btn btn-md btn-info" id="getPersonDetails" style="margin-left:2%;">Get Details</button>
+    			</fieldset>
+    			<br><br><br>
+    			<form class="form-horizontal">
+    				<fieldset class="bigBox">
+    					<legend style="color:#555;font-size:80%">Details</legend>
+    					<div class="form-group">
+    						<label class="col-sm-4 control-label">Name : </label>
+    						<input type="text" id="personName" class="form-control">
+    					</div>
+    					<div class="form-group">
+    						<label class="col-sm-4 control-label">Room Number :</label>
+    						<input type="text" id="personRoomNo" class="form-control">
+    					</div>
+    					<div class="form-group">
+    						<label class="col-sm-4 control-label">Advance Paid : </label>
+    						<input type="text" id="advancePaidForPG" class="form-control">
+    					</div>
+    					<div class="form-group">
+    						<label class="col-sm-4 control-label">Balance Remaining : </label>
+    						<input type="text" id="pgBalance" class="form-control">
+    					</div>
+    					<button class="btn btn-md btn-primary pull-right" id="vacatePG" style="margin-right:5%">Vacate PG</button>
+    					<br><br>
+    				</fieldset>
+    			</form>
+
+    		</div>
+    </div>
+
+    <!-- Change Room, use innerDiv class-->
+    <div class="tab-pane panel" id="change-room">
+    	<div class="innerDiv">
+    		<fieldset class="smallBox">
+    			<legend style="color:#555;font-size:80%;">Get Person Details </legend>
+    			<label style="margin-left:10%;">Enter Mobile Number : </label>	
+    			<input type="text" id="perMobileNo">
+    			<button class="btn btn-md btn-info" id="getPerDetails" style="margin-left:2%;">Get Details</button>
+    		</fieldset>
+    		<br><br><br>
+    		<form class="form-horizontal">
+    			<fieldset class="bigBox">
+    				<legend style="color:#555;font-size:80%">Details</legend>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Name : </label>
+    					<input type="text" id="pName" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Room Number :</label>
+    					<input type="text" id="pRoomNo" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Change Mobile Number :</label>
+    					<input type="text" id="pMobileNumber" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Change Rent Amount : </label>
+    					<input type="text" id="pRent" class="form-control">	
+    				</div>
+    				<button class="btn btn-md btn-primary pull-right" style="margin-right:5%">Change Room/Update Rent</button>
+    				<br><br><br>
+    			</fieldset>
+    		</form>
+
+    	</div>
     </div>
 
     <!-- Monthly rent form goes here, use innerDiv class-->
@@ -95,20 +170,55 @@
     				<input type="text" id="mobileNo">
     				<button class="btn btn-md btn-info" id="getDetails" style="margin-left:2%;">Get Details</button>
     			</fieldset>
-    			<br><br>
-    			<form>
+    			<br><br><br>
+    			<form class="form-horizontal">
     				<fieldset class="bigBox">
     					<legend style="color:#555;font-size:80%">Details</legend>
-    					<label>Name : </label>
-    					<input type="text" id="name"><br>
-    					<label>Rent Per Month : </label>
-    					<input type="text" id="mRent"><br>
-    					<label>How Much Paid : </label>
-    					<input type="text" id="mPaid"><br>
-    					<label>Any Balance of Previous Month : </label>
-    					<input type="text" id="mBalance"><br>
-    					<label>Total Amount to be Paid : </label>
-    					<input type="text" id="mTotal">
+    					<div class="form-group">
+    						<label class="col-sm-4 control-label">Name : </label>
+    						<input type="text" id="name" class="form-control">
+    					</div>
+    					<div class="form-group">
+    						<label class="col-sm-4 control-label">Rent Per Month : </label>
+    						<input type="text" id="mRent" class="form-control">	
+    					</div>
+    					<div class="form-group">
+    						<label class="col-sm-4 control-label">How Much Paid : </label>
+    						<input type="text" id="mPaid" class="form-control">
+    					</div>
+    					<div class="form-group">
+    						<label class="col-sm-4 control-label">Any Balance of Previous Month : </label>
+    						<input type="text" id="mBalance" class="form-control">
+    					</div>
+    					<div class="form-group">
+    						<label class="col-sm-4 control-label">Total Amount to be Paid : </label>
+    						<input type="text" id="mTotal" class="form-control">	
+    					</div>
+    					<div class="form-group">
+    						<label class="col-sm-4 control-label">Balance Remaining : </label>
+    						<input type="text" id="mBalance" class="form-control">
+    					</div>
+    					<div class="form-group">
+    						<label style="margin-left:20%">Select Month : </label>
+    						<select id="rentMonth">
+    							<option value="january">January</option>
+    							<option value="february">February</option>
+    							<option value="march">March</option>
+    							<option value="april">April</option>
+    							<option value="may">May</option>
+    							<option value="june">June</option>
+    							<option value="july">July</option>
+    							<option value="august">August</option>
+    							<option value="september">September</option>
+    							<option value="november">November</option>
+    							<option value="december">December</option>
+    						</select>
+    						<label style="margin-left:5%;">Select Year : </label>
+    						<select id="rentYear"></select>
+    					</div>
+    					<button class="btn btn-md btn-primary pull-right" style="margin-right:5%" id="payRent">Save Details</button>
+    					<br><br>
+    			
     				</fieldset>	
     			</form>
     			
