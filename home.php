@@ -75,6 +75,7 @@
 <div class="container">
 	<ul class="nav nav-pills nav-justified" style="margin-top:10%;" data-tabs="tabs">
   		<li class="active"><a href="#new-joinee" data-toggle="tab">New Joinee</a></li>
+  		<li ><a href="#full-details" data-toggle="tab">Get Full Details</a></li>
   		<li ><a href="#change-room" data-toggle="tab">Change Room/Update Rent</a></li>
   		<li ><a href="#vacate-pg" data-toggle="tab">Vacate PG</a></li>
   		<li ><a href="#monthly-rent" data-toggle="tab">Monthly Rent Pay</a></li>
@@ -122,6 +123,48 @@
     			</form>
 
     		</div>
+    </div>
+
+    <!-- Get Full Details of person staying in PG, use innerDiv class -->
+    <div class="tab-pane panel" id="full-details">
+    	<div class="innerDiv">
+    		<fieldset class="smallBox">
+    			<legend style="color:#555;font-size:80%;">Get Person Details </legend>
+    			<label style="margin-left:10%;">Enter Mobile Number : </label>	
+    			<input type="text" id="detailsMobileNo">
+    			<button class="btn btn-md btn-info" id="fullDetails" style="margin-left:2%;">Get Details</button>
+    		</fieldset>
+    		<br><br><br>
+    		<form class="form-horizontal">
+    			<fieldset class="bigBox">
+    				<legend style="color:#555;font-size:80%">Details</legend>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Name : </label>
+    					<input type="text" id="dName" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Room Number :</label>
+    					<input type="text" id="dRoomNo" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Permanent Address :</label>
+    					<textarea id="dAddress" rows="3" class="form-control"></textarea>
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Residence Mobile Number : </label>
+    					<input type="text" id="dResidenceMobile" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Advance Paid :</label>
+    					<input type="text" id="dAdvancePaid" class="form-control">
+    				</div>
+    				<div class="form-group">
+    					<label class="col-sm-4 control-label">Monthly Rent :</label>
+    					<input type="text" id="dRent" class="form-control">
+    				</div>
+    			</fieldset>
+    		</form>
+    	</div>
     </div>
 
     <!-- Change Room, use innerDiv class-->
