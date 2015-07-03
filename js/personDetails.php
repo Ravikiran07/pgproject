@@ -8,7 +8,7 @@
 
     $mobile = $_GET['mobile'];
 
-    $sql = "SELECT a.name, a.monthly_rent, b.balance FROM newJoinee a,monthlyRent b where a.mobile_number=b.mobile_number AND a.mobile_number = '$mobile' AND b.id=(SELECT MAX(id) FROM monthlyRent WHERE mobile_number='$mobile')";
+    $sql = "SELECT  a.name, a.room_no, a.advance_paid, b.balance FROM newJoinee a,monthlyRent b where a.mobile_number=b.mobile_number AND a.mobile_number = '$mobile' AND b.id=(SELECT MAX(id) FROM monthlyRent WHERE mobile_number='$mobile')";
 
     mysql_select_db("payingguest");
 

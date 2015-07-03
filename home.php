@@ -170,9 +170,72 @@
 
         });
         
-        //Vacate PG function
+        //Vacate PG tab, getDetails of the person who is vacating PG
         $("#getPersonDetails").click(function(){
             var mobile = $("#personMobileNo").val();
+            if(mobile == ""){
+                alert("Enter Mobile Number");
+                return false;
+            }
+
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                 xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var ret;
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    ret =  xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET","js/personDetails.php?mobile="+mobile, true);
+            xmlhttp.send();
+
+            setTimeout(function(){
+                ret = JSON.parse(ret);
+                console.log(ret);
+                if(ret.length > 0){
+                    $("#personName").val(ret[0].name);
+                    $("#personRoomNo").val(ret[0].room_no);
+                    $("#advancePaidForPG").val(ret[0].advance_paid);
+                    $("#pgBalance").val(ret[0].balance);    
+                }else{
+                    alert("Details not found");
+                }
+                
+            },500)
+
+
+        });
+
+        //Vacate PG, delete record from the database
+        $("#vacatePG").click(function(){
+            var mobile = $("#personMobileNo").val();
+
+            if(mobile == ""){
+                alert("Enter Mobile Number");
+                return false;
+            }
+
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                 xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var ret;
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    ret =  xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET","js/vacatePG.php?mobile="+mobile, true);
+            xmlhttp.send();
+
         });
 
 
@@ -534,7 +597,7 @@
     <div class="tab-pane panel" id="month-details">
     	<div class="innerDiv">
     		<label style="margin-left:20%">Select Month : </label>
-    		<select>
+    		<select id="reportsMonth">
     			<option value="january">January</option>
     			<option value="february">February</option>
     			<option value="march">March</option>

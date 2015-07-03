@@ -1,13 +1,15 @@
 function fillYear(){
 		var d = new Date();
 		var n = d.getFullYear();
+		var m = d.getMonth();
+		var months = ["january", "february", "march", "april", "may", "june","july", "august", "september", "october", "november", "december"];
 		
 		for(var k = n; k > 2000; k--){
 			$("#year").append($("<option>").attr("value",k).text(k));
 			$("#rentYear").append($("<option>").attr("value",k).text(k));
 			$("#newJoineeRentYear").append($("<option>").attr("value",k).text(k));
 		}
-		
+		$('#reportsMonth option[value="'+months[m]+'"]').attr('selected','selected');
 	}
 
 	function validation(){
