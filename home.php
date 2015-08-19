@@ -54,45 +54,229 @@
 	}
 </style>
 <script type="text/javascript">
-	$(document).ready(function(){
+	$(document).ready(function()
+    {
 		fillYear();
 
+        //DOB validation
+        /*$("#btnsubmit").click(function()
+        {
+            var dobval=$("#jDOB").val();
+            if (isDate(dobval)) 
+                {
+                    alert("Valid Date");
+                    return true;
+
+                }else
+                {
+                    alert("Invalid Date ");
+                    return false;
+                }
+            
+
+        });*/
+
+        $('input[name="filter"]:radio').click(function()
+        {
+            var ret;
+            var month;
+            var year;
+           
+
+            if (this.value== "all") 
+            {
+                $("#reportsMonth").attr("disabled",true);
+                $("#year").attr("disabled",true);
+
+                if (window.XMLHttpRequest) 
+                {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else 
+                {
+                    // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+    
+                xmlhttp.onreadystatechange = function() 
+                {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+                    {
+                        ret =  xmlhttp.responseText;
+                    }
+                }
+
+                xmlhttp.open("GET","js/fetchoverallDetails.php?", true);
+                xmlhttp.send();
+
+                
+            }
+
+            if (this.value == "paidO") 
+            {
+                $("#reportsMonth").attr("disabled",false);
+                $("#year").attr("disabled",false);
+
+
+                $("select").change(function()
+                {
+                     
+                     month=$("#reportsMonth").val();
+                     year=$("#year").val();
+                    // month=$(this).find('option:selected').val();
+                    // year=$(this).find('option:selected').text();
+                     console.log(month);
+                     console.log(year);
+
+                     if (window.XMLHttpRequest) 
+                    {
+                        // code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    else 
+                    {
+                        // code for IE6, IE5
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+
+
+                    xmlhttp.onreadystatechange = function() 
+                    {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+                        {
+                            ret =  xmlhttp.responseText;
+                            console.log(ret);
+                            ret=JSON.parse(ret);
+                            console.log(ret);
+                            if (ret.length>0) 
+                            {
+                                var row='<tr>';
+
+                                for (var i = 0; i < ret.length; i++) 
+                                {
+                  
+                                 row.append($('<td>').html(ret[i]));         
+
+                                }
+                                $('#records').append(row);
+
+
+                            }
+                            else
+                            {
+                                alert("Details not found :");
+                            }
+                        }
+                    }
+           
+                    xmlhttp.open("GET","js/fetchpaidDetails.php?month="+month+"&year="+year, true);
+                    xmlhttp.send();
+                    
+                
+                });
+                                   
+
+            } 
+            if (this.value== "unpaid") 
+            {
+                $("#reportsMonth").attr("disabled",false);
+                $("#year").attr("disabled",false);
+
+                $("select").change(function()
+                {
+                     
+                     month=$("#reportsMonth").val();
+                     year=$("#year").val();
+                    // month=$(this).find('option:selected').val();
+                    // year=$(this).find('option:selected').text();
+                     console.log(month);
+                     console.log(year);
+
+                
+
+                    if (window.XMLHttpRequest) 
+                    {
+                        // code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    else 
+                    {
+                        // code for IE6, IE5
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+
+            
+                    xmlhttp.onreadystatechange = function() 
+                    {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+                        {
+                            ret =  xmlhttp.responseText;
+                            console.log(ret);
+                            
+                        }
+                    }
+           
+                    xmlhttp.open("GET","js/fetchunpaidDetails.php?month="+month+"&year="+year, true);
+                    xmlhttp.send();
+
+                });
+
+
+            }
+
+
+        });
+
         //Get full details function
-		$("#fullDetails").click(function(){
+		$("#fullDetails").click(function()
+        {
 			var mobile = $("#detailsMobileNo").val();
             clearDetails();
-            if(mobile == ""){
+            if(mobile == "")
+            {
                 alert("Enter Mobile Number");
                 return false;
             }
 
-            if (window.XMLHttpRequest) {
+            if (window.XMLHttpRequest) 
+            {
                 // code for IE7+, Firefox, Chrome, Opera, Safari
                  xmlhttp = new XMLHttpRequest();
-            } else {
+            } else 
+            {
                 // code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
             var ret;
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+                {
                     ret =  xmlhttp.responseText;
+                    console.log(ret);
                 }
             }
             xmlhttp.open("GET","js/fetchDetails.php?mobile="+mobile, true);
             xmlhttp.send();
 
-            setTimeout(function(){
+            setTimeout(function()
+            {
                 ret = JSON.parse(ret);
+
                 
-                if(ret.length > 0){
+                if(ret.length > 0)
+                {
                     $("#dName").val(ret[0].name);
                     $("#dRoomNo").val(ret[0].room_no);
                     $("#dAddress").val(ret[0].permanent_address);
                     $("#dResidenceMobile").val(ret[0].residence_mobile);
                     $("#dAdvancePaid").val(ret[0].advance_paid);
                     $("#dRent").val(ret[0].monthly_rent);    
-                }else{
+                }
+                else
+                {
                     alert("Details not found");
                 }
                 
@@ -100,40 +284,50 @@
         
 		});//Get full details function completes here
 
-        $("#getPerDetails").click(function(){
+        $("#getPerDetails").click(function()
+        {
             var mobile = $("#perMobileNo").val();
             clearRoomDetails();
 
-            if(mobile == ""){
+            if(mobile == "")
+            {
                 alert("Enter Mobile Number");
                 return false;
             }
 
-            if (window.XMLHttpRequest) {
+            if (window.XMLHttpRequest) 
+            {
                 // code for IE7+, Firefox, Chrome, Opera, Safari
                  xmlhttp = new XMLHttpRequest();
-            } else {
+            } else 
+            {
                 // code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
             var ret;
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+                {
                     ret =  xmlhttp.responseText;
                 }
             }
             xmlhttp.open("GET","js/fetchDetails.php?mobile="+mobile, true);
             xmlhttp.send();
 
-            setTimeout(function(){
+            setTimeout(function()
+            {
                 ret = JSON.parse(ret);
                 
-                if(ret.length > 0){
+                if(ret.length > 0)
+                {
                     $("#pName").val(ret[0].name);
                     $("#pRoomNo").val(ret[0].room_no);
                     $("#pMobileNumber").val(ret[0].mobile_number);
                     $("#pRent").val(ret[0].monthly_rent);    
-                }else{
+                }
+                else
+                {
                     alert("Details not found");
                 }
                 
@@ -141,7 +335,8 @@
 
         });
         
-        $("#updateRoomRent").click(function(){
+        $("#updateRoomRent").click(function()
+        {
             var name = $("#pName").val();
             var roomNo = $("#pRoomNo").val();
             var mobile = $("#pMobileNumber").val();
@@ -150,16 +345,21 @@
 
             validateRoomRent();
 
-            if (window.XMLHttpRequest) {
+            if (window.XMLHttpRequest) 
+            {
                 // code for IE7+, Firefox, Chrome, Opera, Safari
                  xmlhttp = new XMLHttpRequest();
-            } else {
+            }
+            else 
+            {
                 // code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
             var ret;
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+                {
                     //ret =  xmlhttp.responseText;
                     alert("Updated Information");
                 }
@@ -171,30 +371,38 @@
         });
         
         //Vacate PG tab, getDetails of the person who is vacating PG
-        $("#getPersonDetails").click(function(){
+        $("#getPersonDetails").click(function()
+        {
             var mobile = $("#personMobileNo").val();
-            if(mobile == ""){
+            if(mobile == "")
+            {
                 alert("Enter Mobile Number");
                 return false;
             }
 
-            if (window.XMLHttpRequest) {
+            if (window.XMLHttpRequest) 
+            {
                 // code for IE7+, Firefox, Chrome, Opera, Safari
                  xmlhttp = new XMLHttpRequest();
-            } else {
+            } 
+            else 
+            {
                 // code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
             var ret;
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+                {
                     ret =  xmlhttp.responseText;
                 }
             }
             xmlhttp.open("GET","js/personDetails.php?mobile="+mobile, true);
             xmlhttp.send();
 
-            setTimeout(function(){
+            setTimeout(function()
+            {
                 ret = JSON.parse(ret);
                 console.log(ret);
                 if(ret.length > 0){
@@ -202,7 +410,9 @@
                     $("#personRoomNo").val(ret[0].room_no);
                     $("#advancePaidForPG").val(ret[0].advance_paid);
                     $("#pgBalance").val(ret[0].balance);    
-                }else{
+                }
+                else
+                {
                     alert("Details not found");
                 }
                 
@@ -212,24 +422,30 @@
         });
 
         //Vacate PG, delete record from the database
-        $("#vacatePG").click(function(){
+        $("#vacatePG").click(function()
+        {
             var mobile = $("#personMobileNo").val();
 
-            if(mobile == ""){
+            if(mobile == "")
+            {
                 alert("Enter Mobile Number");
                 return false;
             }
 
-            if (window.XMLHttpRequest) {
+            if (window.XMLHttpRequest) 
+            {
                 // code for IE7+, Firefox, Chrome, Opera, Safari
                  xmlhttp = new XMLHttpRequest();
-            } else {
+            } else 
+            {
                 // code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
             var ret;
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+                {
                     ret =  xmlhttp.responseText;
                 }
             }
@@ -239,39 +455,50 @@
         });
 
 
-        $("#getDetails").click(function(){
+        $("#getDetails").click(function()
+        {
             var mobile = $("#mobileNo").val();
 
-            if(mobile == ""){
+            if(mobile == "")
+            {
                 alert("Enter Mobile Number");
                 return false;
             }
 
-            if (window.XMLHttpRequest) {
+            if (window.XMLHttpRequest) 
+            {
                 // code for IE7+, Firefox, Chrome, Opera, Safari
                  xmlhttp = new XMLHttpRequest();
-            } else {
+            } 
+            else 
+            {
                 // code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
             var ret;
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+                {
                     ret =  xmlhttp.responseText;
                 }
             }
             xmlhttp.open("GET","js/rentDetails.php?mobile="+mobile, true);
             xmlhttp.send();
 
-            setTimeout(function(){
+            setTimeout(function()
+            {
                 ret = JSON.parse(ret);
                 
-                if(ret.length > 0){
+                if(ret.length > 0)
+                {
                     $("#name").val(ret[0].name);
                     $("#mRent").val(ret[0].monthly_rent);
                     $("#mBalance").val(ret[0].balance);
                     $("#mTotal").val(parseInt(ret[0].monthly_rent)+parseInt(ret[0].balance));    
-                }else{
+                }
+                else
+                {
                     alert("Details not found");
                 }
                 
@@ -279,14 +506,16 @@
 
         });
         
-        $("#mPaid").keyup(function(){
+        $("#mPaid").keyup(function()
+        {
             var paid = $("#mPaid").val();
             var total = $("#mTotal").val();
 
             $("#mPresentBalance").val(total-paid);
         });
 
-        $("#payRent").click(function(){
+        $("#payRent").click(function()
+        {
             var mobile = $("#mobileNo").val();
             var rent = $("#mRent").val();
             var paid = $("#mPaid").val();
@@ -294,16 +523,21 @@
             var month = $("#rentMonth").val();
             var year = $("#rentYear").val();
 
-            if (window.XMLHttpRequest) {
+            if (window.XMLHttpRequest) 
+            {
                 // code for IE7+, Firefox, Chrome, Opera, Safari
                  xmlhttp = new XMLHttpRequest();
-            } else {
+            } 
+            else 
+            {
                 // code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
             var ret;
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            xmlhttp.onreadystatechange = function() 
+            {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+                {
                     ret =  xmlhttp.responseText;
                 }
             }
@@ -353,7 +587,7 @@
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Date of Birth : </label>
-    					<input type="text" name="jDOB"  id="jDOB" class="form-control">
+    					<input type="text" name="jDOB"  id="jDOB" class="form-control" placeholder="dd-mm-yyyy">
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Permanent Address : </label>
@@ -369,7 +603,7 @@
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Date Of Admission : </label>
-    					<input type="text" name="jAdmissionDate" id="jAdmissionDate" class="form-control">
+    					<input type="text" name="jAdmissionDate" id="jAdmissionDate" class="form-control" placeholder="dd-mm-yyyy">
     				</div>
                     <div class="form-group">
                             <label style="margin-left:20%">Rent Paid for the Month : </label>
@@ -405,7 +639,7 @@
     					<label class="col-sm-4 control-label">Advance Amount Paid : </label>
     					<input type="text" name="jAdvanceAmount" id="jAdvanceAmount" class="form-control">
     				</div>
-    				<input type="submit" class="btn btn-md btn-primary pull-right" style="margin-right:5%;" value="Save Details">
+    				<input type="submit" class="btn btn-md btn-primary pull-right" style="margin-right:5%;" id="btnsubmit" value="Save Details">
     				<br><br><br>
     			</fieldset>
 			</form>
@@ -597,7 +831,7 @@
     <div class="tab-pane panel" id="month-details">
     	<div class="innerDiv">
     		<label style="margin-left:20%">Select Month : </label>
-    		<select id="reportsMonth">
+    		<select id="reportsMonth" name="months" disabled="disabled">
     			<option value="january">January</option>
     			<option value="february">February</option>
     			<option value="march">March</option>
@@ -611,28 +845,32 @@
     			<option value="december">December</option>
     		</select>
     		<label style="margin-left:5%;">Select Year : </label>
-    		<select id="year"></select><legend></legend>
+    		<select id="year" disabled="disabled"></select><legend></legend>
     		<div class="radio justified" style="margin-left:25%;">
     			<label><input type="radio" name="filter" value="all" checked>All</label>
 				<label style="margin-left:10%;"><input type="radio" name="filter" value="paidO">Paid Only</label>
 				<label style="margin-left:10%;"><input type="radio" name="filter" value="unpaid">Unpaid Only</label>
 			</div>
 			<div class="table-wrapper">
-				<table class="table-bordered table-striped" style="width:100%;">
+				<table class="table-bordered table-striped" style="width:100%;" id="records">
 					<thead>
 						<colgroup>
 							<col style="width:20%;"></col>
 							<col style="width:10%;"></col>
 							<col style="width:5%;"></col>
-							<col style="width:40%;"></col>
+							<col style="width:30%;"></col>
 							<col style="width:10%;"></col>
+                            <col style="width:10%;"></col>
+                            <col style="width:10%;"></col>
 						</colgroup>
-						<tr>
-							<td style="text-align:center;">Name</td>
-							<td style="text-align:center;">Mobile Number</td>
-							<td style="text-align:center;">Room Number</td>
-							<td style="text-align:center;">Home Address</td>
-							<td style="text-align:center;">Rent Paid ?</td>
+						<t/*r>
+							<td style="text-align:center;" id="rName">Name</td>
+							<td style="text-align:center;" id="rmobNo">Mobile Number</td>
+        					<td style="text-align:center;" id="rRoomNo">Room Number</td>
+							<td style="text-align:center;" id="rHomeAddr">Home Address</td>
+                            <td style="text-align:center;" id="rmonthRent">Month Rent</td>
+                            <td style="text-align:center;" id="rRentpaid">Rent Paid ?</td>
+							<td style="text-align:center;" id="rBalance">Balance</td>
 						</tr>
 					</thead>
 				</table>
@@ -643,4 +881,4 @@
 
 
 </body>
-</html>
+</htm*/
