@@ -1,6 +1,6 @@
 <?PHP
 
-	 $conn = mysql_connect("localhost:3306", "root", "great123"); // Establishing Connection with Server
+	 $conn = mysql_connect("localhost:3306", "root", "pwd"); // Establishing Connection with Server
 
 	if(! $conn){
         die("Connection failed: " . mysql_error());
