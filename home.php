@@ -566,6 +566,10 @@ function filterData(){
 	var ret;
 	console.log(radio);
 	$("#records tr").remove();
+
+	 	  var head =  '<thead><colgroup><col style="width:20%;"></col><col style="width:10%;"></col><col style="width:5%;"></col><col style="width:30%;"></col><col style="width:10%;"></col><col style="width:10%;"></col><col style="width:10%;"></col></colgroup><tr><td style="text-align:center;" id="rName">Name</td><td style="text-align:center;" id="rmobNo">Mobile Number</td><td style="text-align:center;" id="rRoomNo">Room Number</td><td style="text-align:center;" id="rHomeAddr">Home Address</td><td style="text-align:center;" id="rmonthRent">Month Rent</td><td style="text-align:center;" id="rRentpaid">Rent Paid ?</td><td style="text-align:center;" id="rBalance">Balance</td></tr></thead><tbody>';
+
+		  $("#records").append(head);
 	if (window.XMLHttpRequest) 
         {
         	// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -586,7 +590,7 @@ function filterData(){
 		  ret = JSON.parse(ret);
                   console.log(ret.length);
 		  console.log(ret);
-	 	 // var table = '<tbody id="recordsBody">'; 
+
 		  for(var i=0;i<ret.length;i++){
 			var table = '<tr><td>'+ret[i].name+'</td><td>'+ret[i].mobile_number+'</td><td>'+ret[i].room_no+'</td><td>'+ret[i].permanent_address+'</td><td>'+ret[i].monthly_rent+'</td><td>'+ret[i].paid+'</td><td>'+ret[i].balance+'</td></tr>';
 			$("#records").append(table);
