@@ -56,9 +56,8 @@
 <script type="text/javascript">
 	$(document).ready(function()
     {
-	fillYear();
+		fillYear();
 	$("#selectFilters").hide();
-	filterData();
 
         //DOB validation
         /*$("#btnsubmit").click(function()
@@ -78,22 +77,12 @@
 
         });*/
 
-	$('input[name="filter"]:radio').click(function(){
-		filterData();
-	});
-
-	$('select').change(function(){
-		filterData();
-	});
-
-        /*$('input[name="filter"]:radio').click(function()
+        $('input[name="filter"]:radio').click(function()
         {
             var ret;
             var month;
             var year;
-          	
-		
-		filterData(); 
+           
 
             if (this.value== "all") 
             {
@@ -240,7 +229,7 @@
 
 
         });
-*/
+
         //Get full details function
 		$("#fullDetails").click(function()
         {
@@ -561,61 +550,6 @@
 	});
 
 
-function filterData(){
-	var radio = $('[name="filter"]:checked').val();
-	var ret;
-	console.log(radio);
-	$("#records tr").remove();
-	if (window.XMLHttpRequest) 
-        {
-        	// code for IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttp = new XMLHttpRequest();
-        }
-        else 
-        {
-               // code for IE6, IE5
-               xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-
-            
-        xmlhttp.onreadystatechange = function() 
-        {
-              if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-              {
-                  ret =  xmlhttp.responseText;	
-		  ret = JSON.parse(ret);
-                  console.log(ret.length);
-		  console.log(ret);
-	 	 // var table = '<tbody id="recordsBody">'; 
-		  for(var i=0;i<ret.length;i++){
-			var table = '<tr><td>'+ret[i].name+'</td><td>'+ret[i].mobile_number+'</td><td>'+ret[i].room_no+'</td><td>'+ret[i].permanent_address+'</td><td>'+ret[i].monthly_rent+'</td><td>'+ret[i].paid+'</td><td>'+ret[i].balance+'</td></tr>';
-			$("#records").append(table);
-		  }		
-		  //var table = '<tr></tr>';
-		  $("#records").append('</tbody>');
-                            
-              }
-        }
-
-	
-	if(radio == "all"){
-		xmlhttp.open("GET","js/fetchoverAllDetails.php?", true);
-	}else if(radio == "paidO"){
-		$("#selectFilters").show();
-		var month = $("#reportsMonth").val();
-                var year = $("#year").val();
-
-		xmlhttp.open("GET","js/fetchpaidDetails.php?month="+month+"&year="+year, true);
-	}else{
-		$("#selectFilters").show();
-		var month = $("#reportsMonth").val();
-                var year = $("#year").val();
-
-		xmlhttp.open("GET","js/fetchunpaidDetails.php?month="+month+"&year="+year, true);
-	}
-	xmlhttp.send();
-	
-}
 </script>
  
 </head>
@@ -899,7 +833,7 @@ function filterData(){
     	<div class="innerDiv">
 		<div id="selectFilters">
     			<label style="margin-left:20%">Select Month : </label>
-    			<select id="reportsMonth" name="months">
+    			<select id="reportsMonth" name="months" disabled="disabled">
     				<option value="january">January</option>
     				<option value="february">February</option>
     				<option value="march">March</option>
@@ -913,7 +847,7 @@ function filterData(){
     				<option value="december">December</option>
     			</select>
     			<label style="margin-left:5%;">Select Year : </label>
-    			<select id="year" ></select><legend></legend>
+    			<select id="year" disabled="disabled"></select><legend></legend>
 		</div>
     		<div class="radio justified" style="margin-left:25%;">
     			<label><input type="radio" name="filter" value="all" checked>All</label>
@@ -929,21 +863,21 @@ function filterData(){
 							<col style="width:5%;"></col>
 							<col style="width:30%;"></col>
 							<col style="width:10%;"></col>
-                            <col style="width:10%;"></col>
-                            <col style="width:10%;"></col>
+                            				<col style="width:10%;"></col>
+                            				<col style="width:10%;"></col>
 						</colgroup>
 						<tr>
 							<td style="text-align:center;" id="rName">Name</td>
 							<td style="text-align:center;" id="rmobNo">Mobile Number</td>
-        					<td style="text-align:center;" id="rRoomNo">Room Number</td>
+        						<td style="text-align:center;" id="rRoomNo">Room Number</td>
 							<td style="text-align:center;" id="rHomeAddr">Home Address</td>
-                            <td style="text-align:center;" id="rmonthRent">Month Rent</td>
-                            <td style="text-align:center;" id="rRentpaid">Rent Paid ?</td>
+				                        <td style="text-align:center;" id="rmonthRent">Month Rent</td>
+                            				<td style="text-align:center;" id="rRentpaid">Rent Paid ?</td>
 							<td style="text-align:center;" id="rBalance">Balance</td>
 						</tr>
 					</thead>
-					<!--<tbody id="reportsTable">
-					</tbody>-->
+					<tbody id="reportsTable">
+					</tbody>
 				</table>
 			</div>
     	</div>
