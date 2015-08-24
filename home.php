@@ -7,8 +7,13 @@
 	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<script src="lib/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/theme-default.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 
+
+	<script src="lib/jquery-1.11.3.min.js"></script>
+    <script src="lib/jquery-2.1.4.min.js"></script>
+    <script src="lib/jquery.form-validator.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/generalFunctions.js"></script>
 	<script type="text/javascript" src="js/fetchDetails.js"></script>
@@ -18,7 +23,7 @@
 	}
 	.panel {
 		background-color: #e7e7e7;
-		height: 100%;
+		height: 135%;
 		width: 100%;
 		margin-left: -5%;
 		margin-top: 2%;
@@ -54,30 +59,18 @@
 	}
 </style>
 <script type="text/javascript">
+
 	$(document).ready(function()
     {
 	fillYear();
+
+    $.validate();
+    $("#jAddress").restrictLength($("#max-length-Homeaddress"));
+    $("#jOfficeAddress").restrictLength($("#max-length-Offcaddress"));
 	$("#selectFilters").hide();
 	filterData();
 
-        //DOB validation
-        /*$("#btnsubmit").click(function()
-        {
-            var dobval=$("#jDOB").val();
-            if (isDate(dobval)) 
-                {
-                    alert("Valid Date");
-                    return true;
-
-                }else
-                {
-                    alert("Invalid Date ");
-                    return false;
-                }
-            
-
-        });*/
-
+        
 	$('input[name="filter"]:radio').click(function(){
 		filterData();
 	});
@@ -86,161 +79,8 @@
 		filterData();
 	});
 
-        /*$('input[name="filter"]:radio').click(function()
-        {
-            var ret;
-            var month;
-            var year;
-          	
-		
-		filterData(); 
+       
 
-            if (this.value== "all") 
-            {
-                $("#reportsMonth").attr("disabled",true);
-                $("#year").attr("disabled",true);
-
-                if (window.XMLHttpRequest) 
-                {
-                    // code for IE7+, Firefox, Chrome, Opera, Safari
-                    xmlhttp = new XMLHttpRequest();
-                }
-                else 
-                {
-                    // code for IE6, IE5
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-
-    
-                xmlhttp.onreadystatechange = function() 
-                {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-                    {
-                        ret =  xmlhttp.responseText;
-                    }
-                }
-
-                xmlhttp.open("GET","js/fetchoverAllDetails.php?", true);
-                xmlhttp.send();
-
-                
-            }
-
-            if (this.value == "paidO") 
-            {
-                $("#reportsMonth").attr("disabled",false);
-                $("#year").attr("disabled",false);
-
-
-                $("select").change(function()
-                {
-                     
-                     month=$("#reportsMonth").val();
-                     year=$("#year").val();
-                    // month=$(this).find('option:selected').val();
-                    // year=$(this).find('option:selected').text();
-                     console.log(month);
-                     console.log(year);
-
-                     if (window.XMLHttpRequest) 
-                    {
-                        // code for IE7+, Firefox, Chrome, Opera, Safari
-                        xmlhttp = new XMLHttpRequest();
-                    }
-                    else 
-                    {
-                        // code for IE6, IE5
-                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                    }
-
-
-                    xmlhttp.onreadystatechange = function() 
-                    {
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-                        {
-                            ret =  xmlhttp.responseText;
-                            console.log(ret);
-                            ret=JSON.parse(ret);
-                            console.log(ret);
-                            if (ret.length>0) 
-                            {
-                                var row='<tr>';
-
-                                for (var i = 0; i < ret.length; i++) 
-                                {
-                  
-                                 row.append($('<td>').html(ret[i]));         
-
-                                }
-                                $('#records').append(row);
-
-
-                            }
-                            else
-                            {
-                                alert("Details not found :");
-                            }
-                        }
-                    }
-           
-                    xmlhttp.open("GET","js/fetchpaidDetails.php?month="+month+"&year="+year, true);
-                    xmlhttp.send();
-                    
-                
-                });
-                                   
-
-            } 
-            if (this.value== "unpaid") 
-            {
-                $("#reportsMonth").attr("disabled",false);
-                $("#year").attr("disabled",false);
-
-                $("select").change(function()
-                {
-                     
-                     month=$("#reportsMonth").val();
-                     year=$("#year").val();
-                    // month=$(this).find('option:selected').val();
-                    // year=$(this).find('option:selected').text();
-                     console.log(month);
-                     console.log(year);
-
-                
-
-                    if (window.XMLHttpRequest) 
-                    {
-                        // code for IE7+, Firefox, Chrome, Opera, Safari
-                        xmlhttp = new XMLHttpRequest();
-                    }
-                    else 
-                    {
-                        // code for IE6, IE5
-                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                    }
-
-            
-                    xmlhttp.onreadystatechange = function() 
-                    {
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-                        {
-                            ret =  xmlhttp.responseText;
-                            console.log(ret);
-                            
-                        }
-                    }
-           
-                    xmlhttp.open("GET","js/fetchunpaidDetails.php?month="+month+"&year="+year, true);
-                    xmlhttp.send();
-
-                });
-
-
-            }
-
-
-        });
-*/
         //Get full details function
 		$("#fullDetails").click(function()
         {
@@ -642,39 +482,40 @@ function filterData(){
     				<legend style="color:#555;font-size:80%">Details</legend>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Name : </label>
-    					<input type="text" name="jName" id="jName" class="form-control">
+    					<input type="text" name="jName" id="jName" class="form-control" data-validation="required" data-validation-error-msg="Full Name is Required">
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Father's Name : </label>
-    					<input type="text" name="jFatherName" id="jFatherName" class="form-control">
+    					<input type="text" name="jFatherName" id="jFatherName" class="form-control" data-validation="required" data-validation-error-msg="Father Name is Required">
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Room Number : </label>
-    					<input type="text" name="jRoomNumber" id="jRoomNumber" class="form-control">
+    					<input type="text" name="jRoomNumber" id="jRoomNumber" class="form-control" data-validation="number" data-validation-allowing="range[1;1000]" data-validation-error-msg="Room Number is Required within 1 to 1000">
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Date of Birth : </label>
-    					<input type="text" name="jDOB"  id="jDOB" class="form-control" placeholder="dd-mm-yyyy">
+    					<input type="text" name="jDOB"  id="jDOB" class="form-control" placeholder="dd/mm/yyyy" data-validation="date" data-validation-format="dd/mm/yyyy" data-validation-error-msg="Please Enter the valid Date of Birth in Format(dd/mm/yyyy)">
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Permanent Address : </label>
+                        <span id="max-length-Homeaddress">500</span>chars left
     					<textarea name="jAddress"  id="jAddress" rows="3" class="form-control"></textarea>
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Mobile Number : </label>
-    					<input type="text" name="jmobileNumber" id="jmobileNumber" class="form-control">
+    					<input type="text" name="jmobileNumber" id="jmobileNumber" class="form-control" data-validation="number" data-validation-error-msg="Please enter the valid Mobile Number">
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Residence Mobile Number : </label>
-    					<input type="text" name="jResidenceMobile" id="jResidenceMobile" class="form-control">
+    					<input type="text" name="jResidenceMobile" id="jResidenceMobile" class="form-control" data-validation="number" data-validation-error-msg="Residance Phone Number is required">
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Date Of Admission : </label>
-    					<input type="text" name="jAdmissionDate" id="jAdmissionDate" class="form-control" placeholder="dd-mm-yyyy">
+    					<input type="text" name="jAdmissionDate" id="jAdmissionDate" class="form-control" placeholder="dd/mm/yyyy" data-validation="date" data-validation-format="dd/mm/yyyy" data-validation-error-msg="Please Enter the Valid Date in Format(dd/mm/yyyy)">
     				</div>
                     <div class="form-group">
                             <label style="margin-left:20%">Rent Paid for the Month : </label>
-                            <select id="newJoineeRentMonth" name="newJoineeRentMonth">
+                            <select id="newJoineeRentMonth" name="newJoineeRentMonth" data-validation="required" >
                                 <option value="january">January</option>
                                 <option value="february">February</option>
                                 <option value="march">March</option>
@@ -688,23 +529,24 @@ function filterData(){
                                 <option value="december">December</option>
                             </select>
                             <label style="margin-left:5%;">Select Year : </label>
-                            <select id="newJoineeRentYear" name="newJoineeRentYear"></select>
+                            <select id="newJoineeRentYear" name="newJoineeRentYear" data-validation="required"></select>
                         </div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Mail Id : </label>
-    					<input type="text" name="jMailId" id="jMailID" class="form-control">
+    					<input type="email" name="jMailId" id="jMailID" class="form-control" data-validation="email" data-validation-error-msg="Enter the valid Email Id">
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Office Address: </label>
+                        <span id="max-length-Offcaddress">500</span>chars left
     					<textarea name="jOfficeAddress" id="jOfficeAddress" rows="3" class="form-control"></textarea>
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Monthly Rent : </label>
-    					<input type="text" name="jMonthRent" id="jMonthRent" class="form-control">
+    					<input type="text" name="jMonthRent" id="jMonthRent" class="form-control" data-validation="number" data-validation-allowing="float" data-validation-decimal-separator="." data-validation-error-msg="Monthly Rent is Required in Numbers">
     				</div>
     				<div class="form-group">
     					<label class="col-sm-4 control-label">Advance Amount Paid : </label>
-    					<input type="text" name="jAdvanceAmount" id="jAdvanceAmount" class="form-control">
+    					<input type="text" name="jAdvanceAmount" id="jAdvanceAmount" class="form-control" data-validation="number" data-validation-allowing="float" data-validation-decimal-separator="." data-validation-error-msg="Advance is Required in Numbers">
     				</div>
     				<input type="submit" class="btn btn-md btn-primary pull-right" style="margin-right:5%;" id="btnsubmit" value="Save Details">
     				<br><br><br>

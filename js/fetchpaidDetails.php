@@ -1,6 +1,6 @@
 <?PHP
 	require_once('toJson.php');
-	$conn = mysql_connect("localhost:3306", "root", "pwd"); // Establishing Connection with Server
+	$conn = mysql_connect("localhost:3306", "root", "great123"); // Establishing Connection with Server
 
     if(! $conn){
         die("Connection failed: " . mysql_error());
@@ -10,7 +10,8 @@
     $year = $_GET['year'];
 
 
-    $sql = "SELECT a.name , a.mobile_number , a.room_no , a.permanent_address, a.monthly_rent, b.paid, b.balance FROM newJoinee a, monthlyRent b WHERE a.mobile_number=b.mobile_number and a.monthly_rent=b.paid and b.month='$month' and b.year='$year'";
+    $sql = "SELECT a.name , a.mobile_number , a.room_no , a.permanent_address, a.monthly_rent, b.paid, b.balance FROM newJoinee a, monthlyRent b 
+        WHERE a.mobile_number=b.mobile_number and a.monthly_rent<=b.paid and b.balance<='0' and b.month='$month' and b.year='$year'";
 
     mysql_select_db("payingguest");
 
