@@ -19,10 +19,10 @@
 	<script type="text/javascript" src="js/fetchDetails.js"></script>
 <style type="text/css">
 	body{
-		color: #777;
+		color: white;
 	}
 	.panel {
-		background-color: #e7e7e7;
+		background-color:#A8A8A8;
 		height: 135%;
 		width: 100%;
 		margin-left: -5%;
@@ -56,6 +56,17 @@
 	}
 	.form-control {
 		width: 50%;
+	}
+	select {
+		background-color:#484848;
+		border-color: #ccc;
+	}
+	tr,td{
+		color:black;
+	}
+	.btn-manual{
+		background-color:#484848;
+		color:white;
 	}
 </style>
 <script type="text/javascript">
@@ -460,10 +471,17 @@ function filterData(){
  
 </head>
 <body>
-<?php include  'includes/menu.php';?>
+<!--Header Div starts here-->
+        <div class="page-header" style="background-color:#333;margin-top:-20px;">
+        <!--<br>--><br>
+        <h1><span style="margin-left:5%;color:white;margin-top:2%;">Paying</span><span style="color:#cc0033;">Guest</span></h1>
+        <button id="signOut" class="btn btn-default btn-xs pull-right" style="margin-right:5%;background-color:#484848;color:white;margin-top:-3%;" data-toggle="modal" data-target="#registerModal">Sign Out</button>
+
+    </div><!--Header div ends here-->
+
 
 <div class="container">
-	<ul class="nav nav-pills nav-justified" style="margin-top:10%;" data-tabs="tabs">
+	<ul class="nav nav-pills nav-justified" style="margin-top:2%;" data-tabs="tabs">
   		<li class="active"><a href="#new-joinee" data-toggle="tab">New Joinee</a></li>
   		<li ><a href="#full-details" data-toggle="tab">Get Full Details</a></li>
   		<li ><a href="#change-room" data-toggle="tab">Change Room/Update Rent</a></li>
@@ -548,7 +566,7 @@ function filterData(){
     					<label class="col-sm-4 control-label">Advance Amount Paid : </label>
     					<input type="text" name="jAdvanceAmount" id="jAdvanceAmount" class="form-control" data-validation="number" data-validation-allowing="float" data-validation-decimal-separator="." data-validation-error-msg="Advance is Required in Numbers">
     				</div>
-    				<input type="submit" class="btn btn-md btn-primary pull-right" style="margin-right:5%;" id="btnsubmit" value="Save Details">
+    				<button class="btn btn-default pull-right btn-manual" style="margin-right:5%;background-color:#484848;color:white;margin-right:5%;" id="btnsubmit" value="Save Details">Save Details</button>
     				<br><br><br>
     			</fieldset>
 			</form>
@@ -562,7 +580,7 @@ function filterData(){
     			<legend style="color:#555;font-size:80%;">Get Rent Details </legend>
     			<label style="margin-left:10%;">Enter Mobile Number : </label>	
     			<input type="text" id="personMobileNo">
-    			<button class="btn btn-md btn-info" id="getPersonDetails" style="margin-left:2%;">Get Details</button>
+    			<button class="btn btn-default btn-manual" id="getPersonDetails" style="margin-left:2%;">Get Details</button>
     		</fieldset>
     		<br><br><br>
     		<form class="form-horizontal">
@@ -584,7 +602,7 @@ function filterData(){
     					<label class="col-sm-4 control-label">Balance Remaining : </label>
     					<input type="text" id="pgBalance" class="form-control">
     				</div>
-    				<button class="btn btn-md btn-primary pull-right" id="vacatePG" style="margin-right:5%">Vacate PG</button>
+    				<button class="btn btn-default btn-manual pull-right" id="vacatePG" style="margin-right:5%">Vacate PG</button>
     				<br><br>
     			</fieldset>
     		</form>
@@ -599,7 +617,7 @@ function filterData(){
     			<legend style="color:#555;font-size:80%;">Get Person Details </legend>
     			<label style="margin-left:10%;">Enter Mobile Number : </label>	
     			<input type="text" id="detailsMobileNo">
-    			<button class="btn btn-md btn-info" id="fullDetails" style="margin-left:2%;">Get Details</button>
+    			<button class="btn btn-default btn-manual" id="fullDetails" style="margin-left:2%;">Get Details</button>
     		</fieldset>
     		<br><br><br>
     		<form class="form-horizontal">
@@ -641,7 +659,7 @@ function filterData(){
     			<legend style="color:#555;font-size:80%;">Get Person Details </legend>
     			<label style="margin-left:10%;">Enter Mobile Number : </label>	
     			<input type="text" id="perMobileNo">
-    			<button class="btn btn-md btn-info" id="getPerDetails" style="margin-left:2%;">Get Details</button>
+    			<button class="btn btn-default btn-manual" id="getPerDetails" style="margin-left:2%;">Get Details</button>
     		</fieldset>
     		<br><br><br>
     		<form class="form-horizontal">
@@ -663,7 +681,7 @@ function filterData(){
     					<label class="col-sm-4 control-label">Change Rent Amount : </label>
     					<input type="text" id="pRent" class="form-control">	
     				</div>
-    				<button class="btn btn-md btn-primary pull-right" style="margin-right:5%" id="updateRoomRent">Change Room/Update Rent</button>
+    				<button class="btn btn-default btn-manual pull-right" style="margin-right:5%" id="updateRoomRent">Change Room/Update Rent</button>
     				<br><br><br>
     			</fieldset>
     		</form>
@@ -678,7 +696,7 @@ function filterData(){
     				<legend style="color:#555;font-size:80%;">Get Rent Details </legend>
     				<label style="margin-left:10%;">Enter Mobile Number : </label>	
     				<input type="text" id="mobileNo">
-    				<button class="btn btn-md btn-info" id="getDetails" style="margin-left:2%;">Get Details</button>
+    				<button class="btn btn-default btn-manual" id="getDetails" style="margin-left:2%;">Get Details</button>
     			</fieldset>
     			<br><br><br>
     			<form class="form-horizontal">
@@ -726,7 +744,7 @@ function filterData(){
     						<label style="margin-left:5%;">Select Year : </label>
     						<select id="rentYear"></select>
     					</div>
-    					<button class="btn btn-md btn-primary pull-right" style="margin-right:5%" id="payRent">Save Details</button>
+    					<button class="btn btn-default btn-manual pull-right" style="margin-right:5%" id="payRent">Save Details</button>
     					<br><br>
     			
     				</fieldset>	
@@ -763,7 +781,7 @@ function filterData(){
 				<label style="margin-left:10%;"><input type="radio" name="filter" value="unpaid">Unpaid Only</label>
 			</div>
 			<div class="table-wrapper">
-				<table class="table-bordered table-striped" style="width:100%;" id="records">
+				<table class="table-bordered table-striped" style="width:100%;" id="records" style="color:black!important;">
 					<thead>
 						<colgroup>
 							<col style="width:20%;"></col>
